@@ -201,7 +201,7 @@ export default function MessDetailScreen() {
                         <Flame size={13} color="#EF4444" fill="#EF4444" />
                         <Text style={styles.calorieText}>650 kcal</Text>
                       </View>
-                      <TouchableOpacity activeOpacity={0.7} style={styles.addButton} onPress={() => console.log('[MD] Add: Paneer Butter Masala Thali')}>
+                      <TouchableOpacity activeOpacity={0.7} style={styles.addButton} onPress={() => router.push('/select-address')}>
                         <Text style={styles.addButtonText}>ADD</Text>
                       </TouchableOpacity>
                     </View>
@@ -227,7 +227,7 @@ export default function MessDetailScreen() {
                         <Flame size={13} color="#EF4444" fill="#EF4444" />
                         <Text style={styles.calorieText}>420 kcal</Text>
                       </View>
-                      <TouchableOpacity activeOpacity={0.7} style={styles.addButton} onPress={() => console.log('[MD] Add: Homestyle Dal Fry Combo')}>
+                      <TouchableOpacity activeOpacity={0.7} style={styles.addButton} onPress={() => router.push('/select-address')}>
                         <Text style={styles.addButtonText}>ADD</Text>
                       </TouchableOpacity>
                     </View>
@@ -300,7 +300,7 @@ export default function MessDetailScreen() {
                       </View>
                     </View>
 
-                    <TouchableOpacity activeOpacity={0.7} style={styles.cartButton} onPress={() => console.log('[MD] Add to Cart: Special Lunch Thali')}>
+                    <TouchableOpacity activeOpacity={0.7} style={styles.cartButton} onPress={() => router.push('/select-address')}>
                       <Text style={styles.cartButtonText}>Add to Cart</Text>
                     </TouchableOpacity>
                   </View>
