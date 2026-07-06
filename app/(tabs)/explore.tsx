@@ -12,6 +12,7 @@ import {
   Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 import {
   ArrowLeft,
   Search,
@@ -223,49 +224,51 @@ export default function ExploreScreen() {
               </Text>
             )}
             {filteredKitchens.map((kitchen) => (
-              <View key={kitchen.id} style={styles.kitchenCard}>
-                <View style={styles.kitchenCardImageContainer}>
-                  <Image source={{ uri: kitchen.image }} style={styles.kitchenCardImage} />
-                  <View style={styles.kitchenRatingPill}>
-                    <Star size={11} color="#FFFFFF" fill="#FFFFFF" />
-                    <Text style={styles.kitchenRatingText}> {kitchen.rating}</Text>
-                  </View>
-                </View>
-
-                <View style={styles.kitchenCardBody}>
-                  <View style={styles.kitchenCardTopRow}>
-                    <Text style={styles.kitchenCardName}>{kitchen.name}</Text>
-                    <TouchableOpacity activeOpacity={0.7} onPress={() => toggleFavorite(kitchen.id)}>
-                      <Heart size={18} color={favorites[kitchen.id] ? '#DC2626' : '#D1D5DB'} fill={favorites[kitchen.id] ? '#DC2626' : 'none'} />
-                    </TouchableOpacity>
-                  </View>
-                  <Text style={styles.kitchenCardCuisine}>{kitchen.cuisine} • {kitchen.distance} away</Text>
-
-                  <View style={styles.badgesRow}>
-                    {kitchen.badges.map((badge, idx) => (
-                      <View key={idx} style={styles.badge}>
-                        <Text style={styles.badgeText}>{badge}</Text>
-                      </View>
-                    ))}
-                  </View>
-
-                  <View style={styles.cardDivider} />
-
-                  <View style={styles.kitchenCardFooter}>
-                    <View style={styles.famousForBlock}>
-                      <Text style={styles.famousForLabel}>Famous for</Text>
-                      <Text style={styles.famousForValue}>{kitchen.famousFor}</Text>
+              <TouchableOpacity key={kitchen.id} activeOpacity={0.7} onPress={() => router.push('/mess-detail')}>
+                <View style={styles.kitchenCard}>
+                  <View style={styles.kitchenCardImageContainer}>
+                    <Image source={{ uri: kitchen.image }} style={styles.kitchenCardImage} />
+                    <View style={styles.kitchenRatingPill}>
+                      <Star size={11} color="#FFFFFF" fill="#FFFFFF" />
+                      <Text style={styles.kitchenRatingText}> {kitchen.rating}</Text>
                     </View>
-                    <TouchableOpacity
-                      activeOpacity={0.7}
-                      style={styles.quickAddButton}
-                      onPress={() => handleQuickAdd(kitchen.name)}
-                    >
-                      <Text style={styles.quickAddText}>+ Quick Add</Text>
-                    </TouchableOpacity>
+                  </View>
+
+                  <View style={styles.kitchenCardBody}>
+                    <View style={styles.kitchenCardTopRow}>
+                      <Text style={styles.kitchenCardName}>{kitchen.name}</Text>
+                      <TouchableOpacity activeOpacity={0.7} onPress={() => toggleFavorite(kitchen.id)}>
+                        <Heart size={18} color={favorites[kitchen.id] ? '#DC2626' : '#D1D5DB'} fill={favorites[kitchen.id] ? '#DC2626' : 'none'} />
+                      </TouchableOpacity>
+                    </View>
+                    <Text style={styles.kitchenCardCuisine}>{kitchen.cuisine} • {kitchen.distance} away</Text>
+
+                    <View style={styles.badgesRow}>
+                      {kitchen.badges.map((badge, idx) => (
+                        <View key={idx} style={styles.badge}>
+                          <Text style={styles.badgeText}>{badge}</Text>
+                        </View>
+                      ))}
+                    </View>
+
+                    <View style={styles.cardDivider} />
+
+                    <View style={styles.kitchenCardFooter}>
+                      <View style={styles.famousForBlock}>
+                        <Text style={styles.famousForLabel}>Famous for</Text>
+                        <Text style={styles.famousForValue}>{kitchen.famousFor}</Text>
+                      </View>
+                      <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={styles.quickAddButton}
+                        onPress={() => handleQuickAdd(kitchen.name)}
+                      >
+                        <Text style={styles.quickAddText}>+ Quick Add</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
 

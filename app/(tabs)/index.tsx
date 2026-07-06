@@ -20,6 +20,7 @@ import {
   Mail, Smartphone, Pencil, ShoppingBag, Calendar, Wallet, FileText, X,
 } from 'lucide-react-native';
 
+import { router } from 'expo-router';
 import SubscriptionTracker from '@/components/subscription-tracker';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -241,33 +242,35 @@ function HomeContent({ onSearchPress, searchQuery: externalSearch, onSearchChang
           </TouchableOpacity>
         </View>
         {filteredKitchens.map((kitchen) => (
-          <View key={kitchen.id} style={styles.kitchenCard}>
-            <View style={styles.kitchenRow}>
-              <Image source={{ uri: kitchen.image }} style={styles.kitchenImage} />
-              <View style={styles.kitchenInfo}>
-                <Text style={styles.kitchenName}>{kitchen.name}</Text>
-                <Text style={styles.kitchenCuisine}>{kitchen.cuisine}</Text>
-                <Text style={styles.kitchenMeta}>{kitchen.time} • {kitchen.price}</Text>
+          <TouchableOpacity key={kitchen.id} activeOpacity={0.7} onPress={() => router.push('/mess-detail')}>
+            <View style={styles.kitchenCard}>
+              <View style={styles.kitchenRow}>
+                <Image source={{ uri: kitchen.image }} style={styles.kitchenImage} />
+                <View style={styles.kitchenInfo}>
+                  <Text style={styles.kitchenName}>{kitchen.name}</Text>
+                  <Text style={styles.kitchenCuisine}>{kitchen.cuisine}</Text>
+                  <Text style={styles.kitchenMeta}>{kitchen.time} • {kitchen.price}</Text>
+                </View>
+                <View style={styles.kitchenRatingBadge}>
+                  <Text style={styles.kitchenRatingText}>{kitchen.rating}</Text>
+                  <Star size={10} color="#FFFFFF" fill="#FFFFFF" />
+                </View>
               </View>
-              <View style={styles.kitchenRatingBadge}>
-                <Text style={styles.kitchenRatingText}>{kitchen.rating}</Text>
-                <Star size={10} color="#FFFFFF" fill="#FFFFFF" />
+              <View style={styles.quickAddSection}>
+                <Text style={styles.quickAddLabel}>Quick Add</Text>
+                {kitchen.quickAdds.map((add, idx) => (
+                  <TouchableOpacity
+                    key={idx}
+                    activeOpacity={0.7}
+                    style={styles.quickAddButton}
+                    onPress={() => addToCart(add.name, add.price)}
+                  >
+                    <Text style={styles.quickAddButtonText}>+ {add.name} {add.price}</Text>
+                  </TouchableOpacity>
+                ))}
               </View>
             </View>
-            <View style={styles.quickAddSection}>
-              <Text style={styles.quickAddLabel}>Quick Add</Text>
-              {kitchen.quickAdds.map((add, idx) => (
-                <TouchableOpacity
-                  key={idx}
-                  activeOpacity={0.7}
-                  style={styles.quickAddButton}
-                  onPress={() => addToCart(add.name, add.price)}
-                >
-                  <Text style={styles.quickAddButtonText}>+ {add.name} {add.price}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
 
@@ -279,38 +282,40 @@ function HomeContent({ onSearchPress, searchQuery: externalSearch, onSearchChang
           </TouchableOpacity>
         </View>
         {RECOMMENDED.map((item) => (
-          <View key={item.id} style={styles.recCard}>
-            <View style={styles.recImageContainer}>
-              <Image source={{ uri: item.image }} style={styles.recImage} />
-              <View style={styles.recRatingPill}>
-                <Star size={10} color="#EF4444" fill="#EF4444" />
-                <Text style={styles.recRatingText}> {item.rating}</Text>
-              </View>
-              <View style={styles.safetyPill}>
-                <Text style={styles.safetyPillText}>🛡️ SAFETY VERIFIED</Text>
-              </View>
-            </View>
-            <View style={styles.recBody}>
-              <View style={styles.recTopRow}>
-                <Text style={styles.recName}>{item.name}</Text>
-                <TouchableOpacity activeOpacity={0.7} onPress={() => toggleFavorite(item.id)}>
-                  <Heart size={18} color={isFavorite[item.id] ? '#DC2626' : '#D1D5DB'} fill={isFavorite[item.id] ? '#DC2626' : 'none'} />
-                </TouchableOpacity>
-              </View>
-              <Text style={styles.recSpecial}>Specializes in: {item.cuisine}</Text>
-              <View style={styles.recDivider} />
-              <View style={styles.recMetaRow}>
-                <View style={styles.recMetaItem}>
-                  <Clock size={14} color="#6B7280" />
-                  <Text style={styles.recMetaText}> {item.time}</Text>
+          <TouchableOpacity key={item.id} activeOpacity={0.7} onPress={() => router.push('/mess-detail')}>
+            <View style={styles.recCard}>
+              <View style={styles.recImageContainer}>
+                <Image source={{ uri: item.image }} style={styles.recImage} />
+                <View style={styles.recRatingPill}>
+                  <Star size={10} color="#EF4444" fill="#EF4444" />
+                  <Text style={styles.recRatingText}> {item.rating}</Text>
                 </View>
-                <View style={styles.recMetaItem}>
-                  <MapPin size={14} color="#6B7280" />
-                  <Text style={styles.recMetaText}> {item.distance}</Text>
+                <View style={styles.safetyPill}>
+                  <Text style={styles.safetyPillText}>🛡️ SAFETY VERIFIED</Text>
                 </View>
               </View>
+              <View style={styles.recBody}>
+                <View style={styles.recTopRow}>
+                  <Text style={styles.recName}>{item.name}</Text>
+                  <TouchableOpacity activeOpacity={0.7} onPress={() => toggleFavorite(item.id)}>
+                    <Heart size={18} color={isFavorite[item.id] ? '#DC2626' : '#D1D5DB'} fill={isFavorite[item.id] ? '#DC2626' : 'none'} />
+                  </TouchableOpacity>
+                </View>
+                <Text style={styles.recSpecial}>Specializes in: {item.cuisine}</Text>
+                <View style={styles.recDivider} />
+                <View style={styles.recMetaRow}>
+                  <View style={styles.recMetaItem}>
+                    <Clock size={14} color="#6B7280" />
+                    <Text style={styles.recMetaText}> {item.time}</Text>
+                  </View>
+                  <View style={styles.recMetaItem}>
+                    <MapPin size={14} color="#6B7280" />
+                    <Text style={styles.recMetaText}> {item.distance}</Text>
+                  </View>
+                </View>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </>
@@ -442,39 +447,41 @@ function ExploreContent() {
       <View style={styles.exploreKitchensSection}>
         <Text style={styles.exploreSectionTitle}>Explore Top Kitchens</Text>
         {TOP_KITCHENS.map((kitchen) => (
-          <View key={kitchen.id} style={styles.exploreKitchenCard}>
-            <View style={styles.exploreKitchenCardImageContainer}>
-              <Image source={{ uri: kitchen.image }} style={styles.exploreKitchenCardImage} />
-              <View style={styles.exploreKitchenRatingPill}>
-                <Star size={11} color="#FFFFFF" fill="#FFFFFF" />
-                <Text style={styles.exploreKitchenRatingText}> {kitchen.rating}</Text>
-              </View>
-            </View>
-            <View style={styles.exploreKitchenCardBody}>
-              <View style={styles.exploreKitchenCardTopRow}>
-                <Text style={styles.exploreKitchenCardName}>{kitchen.name}</Text>
-                <TouchableOpacity><Heart size={18} color="#D1D5DB" /></TouchableOpacity>
-              </View>
-              <Text style={styles.exploreKitchenCardCuisine}>{kitchen.cuisine} • {kitchen.distance} away</Text>
-              <View style={styles.exploreBadgesRow}>
-                {kitchen.badges.map((badge, idx) => (
-                  <View key={idx} style={styles.exploreBadge}>
-                    <Text style={styles.exploreBadgeText}>{badge}</Text>
-                  </View>
-                ))}
-              </View>
-              <View style={styles.exploreCardDivider} />
-              <View style={styles.exploreKitchenCardFooter}>
-                <View style={styles.exploreFamousForBlock}>
-                  <Text style={styles.exploreFamousForLabel}>Famous for</Text>
-                  <Text style={styles.exploreFamousForValue}>{kitchen.famousFor}</Text>
+          <TouchableOpacity key={kitchen.id} activeOpacity={0.7} onPress={() => router.push('/mess-detail')}>
+            <View style={styles.exploreKitchenCard}>
+              <View style={styles.exploreKitchenCardImageContainer}>
+                <Image source={{ uri: kitchen.image }} style={styles.exploreKitchenCardImage} />
+                <View style={styles.exploreKitchenRatingPill}>
+                  <Star size={11} color="#FFFFFF" fill="#FFFFFF" />
+                  <Text style={styles.exploreKitchenRatingText}> {kitchen.rating}</Text>
                 </View>
-                <TouchableOpacity style={styles.exploreQuickAddButton}>
-                  <Text style={styles.exploreQuickAddText}>+ Quick Add</Text>
-                </TouchableOpacity>
+              </View>
+              <View style={styles.exploreKitchenCardBody}>
+                <View style={styles.exploreKitchenCardTopRow}>
+                  <Text style={styles.exploreKitchenCardName}>{kitchen.name}</Text>
+                  <TouchableOpacity><Heart size={18} color="#D1D5DB" /></TouchableOpacity>
+                </View>
+                <Text style={styles.exploreKitchenCardCuisine}>{kitchen.cuisine} • {kitchen.distance} away</Text>
+                <View style={styles.exploreBadgesRow}>
+                  {kitchen.badges.map((badge, idx) => (
+                    <View key={idx} style={styles.exploreBadge}>
+                      <Text style={styles.exploreBadgeText}>{badge}</Text>
+                    </View>
+                  ))}
+                </View>
+                <View style={styles.exploreCardDivider} />
+                <View style={styles.exploreKitchenCardFooter}>
+                  <View style={styles.exploreFamousForBlock}>
+                    <Text style={styles.exploreFamousForLabel}>Famous for</Text>
+                    <Text style={styles.exploreFamousForValue}>{kitchen.famousFor}</Text>
+                  </View>
+                  <TouchableOpacity style={styles.exploreQuickAddButton}>
+                    <Text style={styles.exploreQuickAddText}>+ Quick Add</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
 
